@@ -6,7 +6,7 @@ import { fetchContentful } from 'pages/_template.jsx';
 import Header from 'components/Header/Header';
 import Devices from 'components/Devices/Devices.js';
 
-class Index extends React.Component {
+class Admin extends React.Component {
  constructor(props) {
   super(props);
  }
@@ -22,6 +22,7 @@ class Index extends React.Component {
           <Header />
           { !this.props.allProducts ? <h1>Loading...</h1> :
             <div>
+                <h2>Admin</h2>
                 <Devices
                     products={this.props.featured}
                 />
@@ -42,4 +43,4 @@ const mapStateToProps = (state) => {
   }
 }
 // Connected Component
-export default connect(mapStateToProps)(Index)
+export default connect(mapStateToProps)(Admin)

@@ -20,17 +20,17 @@ export default class Header extends React.Component {
          <Navbar.Header>
            <Navbar.Brand>
              <a className="logo" href="/">
-                 BitrusCyte
+                BitrusCyte
              </a>
            </Navbar.Brand>
            <Navbar.Toggle />
          </Navbar.Header>
          <Navbar.Collapse>
            <Nav>
-               <LinkContainer to='/products/'>
-               <NavItem className="nav-link">Controls</NavItem>
+               <LinkContainer to='/'>
+               <NavItem className="nav-link">Devices</NavItem>
              </LinkContainer>
-             <LinkContainer to='/about/'>
+             <LinkContainer to='/admin/'>
                <NavItem className="nav-link">Admin</NavItem>
              </LinkContainer>
            </Nav>

@@ -1,16 +1,15 @@
 import React from 'react';
-import Product from 'components/Product/Product';
-import '../FeaturedProducts/FeaturedProducts.css';
+import Device from 'components/Device/Device';
+import './Devices.css';
 
-
-export default class JustArrived extends React.Component {
+export default class Devices extends React.Component {
   render () {
     return (
-      <section className="just-arrived">
-        <h2 className="just-arrived-header">Just Arrived</h2>
-        <div className="arrived-flex">
+      <section className="featured-products">
+        <h2 className="featured-products-header">Devices</h2>
+        <div className="featured-flex">
           {this.props.products.map(product =>
-              <Product
+              <Device
                 key={product.sys.id}
                 id={product.sys.id}
                 name={product.productName}

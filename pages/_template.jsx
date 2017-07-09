@@ -7,14 +7,13 @@ import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 const contentfulApiUrl = `https://cdn.contentful.com/spaces/jg5tu42w97lj/entries?access_token=${config.contentfulAccessToken}`;
-import Products from 'pages/products';
 import { Router, Route } from 'react-router';
 
 // Action Types
 const RECEIVE_CONTENTFUL = 'RECEIVE_CONTENTFUL';
 const REQUEST_CONTENTFUL = 'REQUEST_CONTENTFUL';
 
-// builds redux store
+// Builds redux store
 function configureStore(preloadedState) {
   return createStore(
     appReducer,
@@ -55,6 +54,7 @@ export function fetchContentful() {
     }
 }
 
+// Reducer
 function appReducer(state = {}, action = {}){
     switch (action.type){
 
@@ -141,6 +141,7 @@ function appReducer(state = {}, action = {}){
     }
 }
 
+// Component
 export default class App extends React.Component {
   render () {
     return (

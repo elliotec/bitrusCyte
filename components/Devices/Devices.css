@@ -1,0 +1,19 @@
+.featured-products {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+.featured-flex {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+.featured-products-header {
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 20px;
+  font-size: 35px;
+}
