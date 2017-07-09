@@ -25,14 +25,8 @@ class Index extends React.Component {
         <div>
           <Helmet
             title={config.siteTitle}
-            meta={[
-              {"name": "description", "content": "Lipstick n' Lace etc."},
-              {"name": "keywords", "content": "lipstick, beauty, lipsense"},
-            ]}
           />
           <Header />
-          <Hero />
-          <SeasonalAndBundles />
           { !this.props.allProducts ? <h1>Loading...</h1> :
             <div>
               <FeaturedProducts
@@ -40,12 +34,6 @@ class Index extends React.Component {
               />
               <JustArrived
                 products={this.props.justArrived}
-              />
-              <SeasonalProducts
-                products={this.props.seasonal}
-              />
-              <BundleProducts
-                products={this.props.bundle}
               />
             </div>
           }

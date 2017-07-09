@@ -20,7 +20,7 @@ export default class Header extends React.Component {
          <Navbar.Header>
            <Navbar.Brand>
              <a className="logo" href="/">
-               Lipstick n' Lace
+                 BitrusCyte
              </a>
            </Navbar.Brand>
            <Navbar.Toggle />
@@ -28,25 +28,12 @@ export default class Header extends React.Component {
          <Navbar.Collapse>
            <Nav>
                <LinkContainer to='/products/'>
-               <NavItem className="nav-link">Products</NavItem>
+               <NavItem className="nav-link">Controls</NavItem>
              </LinkContainer>
              <LinkContainer to='/about/'>
-               <NavItem className="nav-link">About</NavItem>
-             </LinkContainer>
-             <LinkContainer to='/howtouse/'>
-               <NavItem className="nav-link">How to Use</NavItem>
+               <NavItem className="nav-link">Admin</NavItem>
              </LinkContainer>
            </Nav>
-           <Nav pullRight>
-              <LinkContainer to="#" className="snipcart-checkout">
-                 <NavItem className="nav-link">
-                    <FaShoppingCart className='cart-button' />
-                 </NavItem>
-              </LinkContainer>
-           </Nav>
-           <a href="https://www.facebook.com/groups/1830648883849106/" target="_blank">
-              <FaFacebookSquare className='fb-button' />
-           </a>
          </Navbar.Collapse>
       </Navbar>
     );
