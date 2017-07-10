@@ -6,7 +6,7 @@ export default class Device extends React.Component {
     return (
       <div className="product-container">
           <h4 className="product-name">{this.props.name}</h4>
-          <p className="product-type">{this.props.sizetypecolor}</p>
+          <p className="product-type">{this.props.type}</p>
       </div>
     );
   }

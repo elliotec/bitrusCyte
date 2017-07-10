@@ -1,5 +1,4 @@
 import React from 'react';
-import Helmet from 'react-helmet';
 import { config } from 'config';
 import { connect } from 'react-redux';
 import { fetchContentful } from 'pages/_template.jsx';
@@ -7,29 +6,26 @@ import Header from 'components/Header/Header';
 import Devices from 'components/Devices/Devices.js';
 
 class Index extends React.Component {
- constructor(props) {
-  super(props);
- }
-  componentDidMount() {
-    this.props.dispatch(fetchContentful())
-  }
-  render () {
-    return (
-        <div>
-          <Helmet
-            title={config.siteTitle}
-          />
-          <Header />
-          { !this.props.allProducts ? <h1>Loading...</h1> :
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        this.props.dispatch(fetchContentful())
+    }
+    render () {
+        return (
             <div>
-                <Devices
-                    products={this.props.featured}
-                />
+                <Header />
+                { !this.props.allProducts ? <h1>Loading...</h1> :
+                        <div>
+                            <Devices
+                                devices={this.props.featured}
+                            />
+                        </div>
+                }
             </div>
-          }
-        </div>
-    )
-  }
+        )
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -41,5 +37,6 @@ const mapStateToProps = (state) => {
     bundle: state.bundle
   }
 }
+
 // Connected Component
 export default connect(mapStateToProps)(Index)

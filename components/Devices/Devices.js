@@ -8,16 +8,12 @@ export default class Devices extends React.Component {
       <section className="featured-products">
         <h2 className="featured-products-header">Devices</h2>
         <div className="featured-flex">
-          {this.props.products.map(product =>
+          {this.props.devices.map(device =>
               <Device
-                key={product.sys.id}
-                id={product.sys.id}
-                name={product.productName}
-                productDescription={product.productDescription}
-                quantity={product.quantity}
-                sizetypecolor={product.sizetypecolor}
-                price={product.price}
-                imageUrl={product.imageUrl}
+                key={device.sys.id}
+                id={device.sys.id}
+                name={device.productName}
+                type={device.sizetypecolor}
               />
           )}
         </div>

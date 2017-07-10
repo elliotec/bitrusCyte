@@ -24,7 +24,7 @@ class Admin extends React.Component {
             <div>
                 <h2>Admin</h2>
                 <Devices
-                    products={this.props.featured}
+                    devices={this.props.featured}
                 />
             </div>
           }

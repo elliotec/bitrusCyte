@@ -7,8 +7,6 @@ import {
   MenuItem
 } from 'react-bootstrap';
 import './Header.css';
-import FaShoppingCart from 'react-icons/lib/fa/shopping-cart';
-import FaFacebookSquare from 'react-icons/lib/fa/facebook-square';
 import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 
