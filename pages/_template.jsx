@@ -37,7 +37,7 @@ export function fetchContentful() {
                 response => response.json(),
                 error => console.log('An error occured.', error)
             )
-            .then(json => console.log(json))//dispatch(receiveContentful(json)))
+            .then(json => dispatch(receiveContentful(json)))
     }
 }
 
@@ -56,7 +56,6 @@ function receiveContentful(json) {
     }
 }
 
-
 // Reducer
 function appReducer(state = {}, action = {}){
     switch (action.type){
@@ -68,74 +67,69 @@ function appReducer(state = {}, action = {}){
             }
 
         case RECEIVE_CONTENTFUL:
-            const oldContentfulItems = action.contentful.items;
-            const oldContentfulAssets = action.contentful.includes.Asset;
-            const productImages = oldContentfulAssets.reduce(
-                (assetsAccum, asset) => {
-                    const assetId = asset.sys.id;
-                    const imageUrl = asset.fields.file.url;
-                    assetsAccum[assetId] = imageUrl;
+            const contentfulItems = action.contentful.items;
+            // const oldContentfulAssets = action.contentful.includes.Asset;
+            // const productImages = oldContentfulAssets.reduce(
+            //     (assetsAccum, asset) => {
+            //         const assetId = asset.sys.id;
+            //         const imageUrl = asset.fields.file.url;
+            //         assetsAccum[assetId] = imageUrl;
 
-                    return assetsAccum;
-                }, {}
-            );
-            const itemsWithImages = oldContentfulItems.map(
+            //         return assetsAccum;
+            //     }, {}
+            // );
+            const itemsWithFields = contentfulItems.map(
                 (item) => {
-                    const imageId = item.fields.image[0].sys.id;
                     const createdDateMilliseconds = Date.parse(item.sys.createdAt);
 
                     return {
                         ...item,
                         ...item.fields,
-                        imageUrl: productImages[imageId],
                         createdDateMilliseconds
                     }
                 }
             );
-            const includesFeaturedTag = itemsWithImages.filter(
-                (item) => {
-                    if(item.tags && item.tags.includes('featured')){
-                        return item;
-                    }
-                }
-            );
-            const featured = includesFeaturedTag.slice(0,4);
+            // const includesFeaturedTag = itemsWithImages.filter(
+            //     (item) => {
+            //         if(item.tags && item.tags.includes('featured')){
+            //             return item;
+            //         }
+            //     }
+            // );
+            // const featured = includesFeaturedTag.slice(0,4);
 
-            const sortedProductsByDate = itemsWithImages.sort((a, b) => {
-                return b.createdDateMilliseconds - a.createdDateMilliseconds;
-            });
+            // const sortedProductsByDate = itemsWithImages.sort((a, b) => {
+            //     return b.createdDateMilliseconds - a.createdDateMilliseconds;
+            // });
 
-            const justArrived = sortedProductsByDate.slice(0,4);
+            // const justArrived = sortedProductsByDate.slice(0,4);
 
-            const includesSeasonalTag = itemsWithImages.filter(
-                (item) => {
-                    if(item.tags && item.tags.includes('seasonal')){
-                        return item;
-                    }
-                }
-            );
+            // const includesSeasonalTag = itemsWithImages.filter(
+            //     (item) => {
+            //         if(item.tags && item.tags.includes('seasonal')){
+            //             return item;
+            //         }
+            //     }
+            // );
 
-            const seasonal = includesSeasonalTag;
+            // const seasonal = includesSeasonalTag;
 
-            const includesBundleTag = itemsWithImages.filter(
-                (item) => {
-                    if(item.tags && item.tags.includes('bundle')){
-                        return item;
-                    }
-                }
-            );
+            // const includesBundleTag = itemsWithImages.filter(
+            //     (item) => {
+            //         if(item.tags && item.tags.includes('bundle')){
+            //             return item;
+            //         }
+            //     }
+            // );
 
-            const bundle = includesBundleTag;
+            // const bundle = includesBundleTag;
 
             return {
                 ...state,
                 isFetching: false,
                 contentful: action.contentful,
                 lastUpdated: action.receivedAt,
-                allProducts: itemsWithImages,
-                featured,
-                bundle,
-                justArrived
+                devices: itemsWithFields
             }
 
         default:

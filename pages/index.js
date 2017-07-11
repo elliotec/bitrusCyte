@@ -15,11 +15,10 @@ class Index extends React.Component {
     render () {
         return (
             <div>
-                <Header />
-                { !this.props.allProducts ? <h1>Loading...</h1> :
+                { !this.props.devices ? <sm>Loading... or broken</sm> :
                         <div>
                             <Devices
-                                devices={this.props.featured}
+                                devices={this.props.devices}
                             />
                         </div>
                 }
@@ -30,11 +29,8 @@ class Index extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    allProducts: state.allProducts,
-    featured: state.featured,
-    justArrived: state.justArrived,
-    seasonal: state.seasonal,
-    bundle: state.bundle
+    allDevices: state.allDevices,
+    devices: state.devices
   }
 }
 

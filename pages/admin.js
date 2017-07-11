@@ -20,11 +20,11 @@ class Admin extends React.Component {
             title={config.siteTitle}
           />
           <Header />
-          { !this.props.allProducts ? <h1>Loading...</h1> :
+          { !this.props.allDevices ? <h1>Loading...</h1> :
             <div>
                 <h2>Admin</h2>
                 <Devices
-                    devices={this.props.featured}
+                    devices={this.props.devices}
                 />
             </div>
           }
@@ -35,11 +35,8 @@ class Admin extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    allProducts: state.allProducts,
-    featured: state.featured,
-    justArrived: state.justArrived,
-    seasonal: state.seasonal,
-    bundle: state.bundle
+    allDevices: state.allDevices,
+    devices: state.devices
   }
 }
 // Connected Component

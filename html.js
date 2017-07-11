@@ -25,7 +25,6 @@ export default class extends React.Component {
           />
           {head.title.toComponent()}
           {head.meta.toComponent()}
-          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css" />
           <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet" />
           {css}
         </head>

@@ -1,24 +1,14 @@
-.product-container {
+.device-container {
   width: 100%;
   text-align: center;
   font-family: sans-serif;
-  overflow: hidden;
-  border: 1px solid #d3d3d3;
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
+  padding: 10px;
 
   & a {
     color: black;
     text-decoration: none;
     cursor: pointer;
   }
-
-  & .product-type {
-    margin-bottom: 0;
-    min-height: 40px;
-    font-weight: bold;
-  }
-
-  & .product-name {
-    min-height: 50px;
-  }
-
 }

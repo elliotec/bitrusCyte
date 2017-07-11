@@ -5,15 +5,19 @@ import './Devices.css';
 export default class Devices extends React.Component {
   render () {
     return (
-      <section className="featured-products">
-        <h2 className="featured-products-header">Devices</h2>
-        <div className="featured-flex">
+      <section className="devices">
+        <h2 className="devices-header">Devices</h2>
+        <div className="devices-flex">
           {this.props.devices.map(device =>
               <Device
                 key={device.sys.id}
                 id={device.sys.id}
-                name={device.productName}
-                type={device.sizetypecolor}
+                name={device.deviceName}
+                type={device.type}
+                shouldHaveVolumeSlider={device.shouldHaveVolumeSlider}
+                shouldHaveBrightnessSlider={device.shouldHaveBrightnessSlider}
+                shouldHaveSelector={device.shouldHaveSelector}
+                shouldHavePowerButton={device.shouldHavePowerButton}
               />
           )}
         </div>
