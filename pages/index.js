@@ -2,7 +2,6 @@ import React from 'react';
 import { config } from 'config';
 import { connect } from 'react-redux';
 import { fetchContentful } from 'pages/_template.jsx';
-import Header from 'components/Header/Header';
 import Devices from 'components/Devices/Devices.js';
 
 class Index extends React.Component {
@@ -15,7 +14,7 @@ class Index extends React.Component {
     render () {
         return (
             <div>
-                { !this.props.devices ? <sm>Loading... or broken</sm> :
+                { !this.props.devices ? <marquee>loading... or broken</marquee> :
                         <div>
                             <Devices
                                 devices={this.props.devices}

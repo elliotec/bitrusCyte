@@ -68,6 +68,29 @@ function appReducer(state = {}, action = {}){
 
         case RECEIVE_CONTENTFUL:
             const contentfulItems = action.contentful.items;
+            const itemsWithFields = contentfulItems.map(
+                (item) => {
+                    const createdDateMilliseconds = Date.parse(item.sys.createdAt);
+                    const itemOptions = item.fields.selectorValues;
+                    let selectOptions= [];
+
+                    if(item.fields.selectorValues) {
+                        selectOptions = itemOptions.map(
+                            (option) => {
+                                return { value: option, label: option}
+                            }
+                        )
+                    }
+
+                    return {
+                        ...item,
+                        ...item.fields,
+                        selectOptions,
+                        createdDateMilliseconds
+                    }
+                }
+            );
+
             // const oldContentfulAssets = action.contentful.includes.Asset;
             // const productImages = oldContentfulAssets.reduce(
             //     (assetsAccum, asset) => {
@@ -78,17 +101,6 @@ function appReducer(state = {}, action = {}){
             //         return assetsAccum;
             //     }, {}
             // );
-            const itemsWithFields = contentfulItems.map(
-                (item) => {
-                    const createdDateMilliseconds = Date.parse(item.sys.createdAt);
-
-                    return {
-                        ...item,
-                        ...item.fields,
-                        createdDateMilliseconds
-                    }
-                }
-            );
             // const includesFeaturedTag = itemsWithImages.filter(
             //     (item) => {
             //         if(item.tags && item.tags.includes('featured')){

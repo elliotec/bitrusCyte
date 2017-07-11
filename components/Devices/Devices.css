@@ -1,19 +1,19 @@
 .devices {
-  width: 100%;
-  text-align: center;
-  margin: 0 auto;
+    font-family: sans-serif;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
 }
+
 .devices-flex {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .devices-header {
-  width: 100%;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  font-size: 30px;
+    width: 100%;
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 15px;
 }

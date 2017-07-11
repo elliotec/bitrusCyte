@@ -17,15 +17,15 @@ export default class extends React.Component {
     return (
       <html lang="en">
         <head>
+          <title>BitrusCytes</title>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          {head.title.toComponent()}
           {head.meta.toComponent()}
-          <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700" rel="stylesheet" />
+          <link rel="stylesheet" href="https://cdn.rawgit.com/mblode/marx/master/css/marx.min.css" />
           {css}
         </head>
         <body>
