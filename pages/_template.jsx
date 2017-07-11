@@ -7,12 +7,7 @@ import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const contentfulApiUrl = `https://cdn.contentful.com/spaces/jg5tu42w97lj/entries?access_token=${config.contentfulAccessToken}`;
 const citrusContentfulApiUrl = `https://cdn.contentful.com/spaces/${config.citrusSpaceId}/entries?access_token=${config.citrusContentfulAccessToken}`;
-
-// Action Types
-const RECEIVE_CONTENTFUL = 'RECEIVE_CONTENTFUL';
-const REQUEST_CONTENTFUL = 'REQUEST_CONTENTFUL';
 
 // Builds redux store
 function configureStore(preloadedState) {
@@ -41,6 +36,14 @@ export function fetchContentful() {
     }
 }
 
+// Action Types
+const RECEIVE_CONTENTFUL = 'RECEIVE_CONTENTFUL';
+const REQUEST_CONTENTFUL = 'REQUEST_CONTENTFUL';
+const POWER_BUTTON_CHANGE = 'POWER_BUTTON_CHANGE';
+const SELECTED_VALUE_CHANGE = 'SELECTED_VALUE_CHANGE';
+const VOLUME_CHANGE = 'VOLUME_CHANGE';
+const BRIGHTNESS_CHANGE = 'BRIGHTNESS_CHANGE';
+
 // Action Creators
 function requestContentful() {
     return {
@@ -53,6 +56,15 @@ function receiveContentful(json) {
         type: RECEIVE_CONTENTFUL,
         receivedAt: Date.now(),
         contentful: json
+    }
+}
+
+export function selectedValueChange(selectedValue, id) {
+    console.log(selectedValue, id)
+    return {
+        type: SELECTED_VALUE_CHANGE,
+        selectedValue,
+        id
     }
 }
 
@@ -72,7 +84,7 @@ function appReducer(state = {}, action = {}){
                 (item) => {
                     const createdDateMilliseconds = Date.parse(item.sys.createdAt);
                     const itemOptions = item.fields.selectorValues;
-                    let selectOptions= [];
+                    let selectOptions = [];
 
                     if(item.fields.selectorValues) {
                         selectOptions = itemOptions.map(
@@ -91,57 +103,38 @@ function appReducer(state = {}, action = {}){
                 }
             );
 
-            // const oldContentfulAssets = action.contentful.includes.Asset;
-            // const productImages = oldContentfulAssets.reduce(
-            //     (assetsAccum, asset) => {
-            //         const assetId = asset.sys.id;
-            //         const imageUrl = asset.fields.file.url;
-            //         assetsAccum[assetId] = imageUrl;
+            const itemsById = itemsWithFields.reduce(
+                (accum, item) => {
+                    const itemId = item.sys.id;
+                    accum[itemId] = item;
 
-            //         return assetsAccum;
-            //     }, {}
-            // );
-            // const includesFeaturedTag = itemsWithImages.filter(
-            //     (item) => {
-            //         if(item.tags && item.tags.includes('featured')){
-            //             return item;
-            //         }
-            //     }
-            // );
-            // const featured = includesFeaturedTag.slice(0,4);
+                    return accum;
+                }, {}
+            );
 
-            // const sortedProductsByDate = itemsWithImages.sort((a, b) => {
-            //     return b.createdDateMilliseconds - a.createdDateMilliseconds;
-            // });
-
-            // const justArrived = sortedProductsByDate.slice(0,4);
-
-            // const includesSeasonalTag = itemsWithImages.filter(
-            //     (item) => {
-            //         if(item.tags && item.tags.includes('seasonal')){
-            //             return item;
-            //         }
-            //     }
-            // );
-
-            // const seasonal = includesSeasonalTag;
-
-            // const includesBundleTag = itemsWithImages.filter(
-            //     (item) => {
-            //         if(item.tags && item.tags.includes('bundle')){
-            //             return item;
-            //         }
-            //     }
-            // );
-
-            // const bundle = includesBundleTag;
+            console.log(itemsById);
 
             return {
                 ...state,
+                devices: itemsById,
                 isFetching: false,
                 contentful: action.contentful,
-                lastUpdated: action.receivedAt,
-                devices: itemsWithFields
+                lastUpdated: action.receivedAt
+            }
+
+        case SELECTED_VALUE_CHANGE:
+            const selectedValue = action.selectedValue.value;
+            const id = action.id;
+
+            return {
+                ...state,
+                devices: {
+                    ...state.devices,
+                    [id]:{
+                        ...state.devices[id],
+                        selectedValue
+                    }
+                }
             }
 
         default:

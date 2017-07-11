@@ -1,5 +1,6 @@
 import React from 'react';
 import Device from 'components/Device/Device';
+import _ from 'lodash';
 import './Devices.css';
 
 export default class Devices extends React.Component {
@@ -8,13 +9,14 @@ export default class Devices extends React.Component {
             <section className="devices">
                 <h2 className="devices-header">Devices</h2>
                 <div className="devices-flex">
-                    {this.props.devices.map(device =>
+                    {_.map(this.props.devices, device =>
                         <Device
                             key={device.sys.id}
                             id={device.sys.id}
                             name={device.deviceName}
                             type={device.type}
                             shouldHaveVolumeSlider={device.shouldHaveVolumeSlider}
+                            dispatch={this.props.dispatch}
                             shouldHaveBrightnessSlider={device.shouldHaveBrightnessSlider}
                             shouldHaveSelector={device.shouldHaveSelector}
                             shouldHavePowerButton={device.shouldHavePowerButton}
@@ -25,7 +27,7 @@ export default class Devices extends React.Component {
                             volume={device.volume}
                             brightness={device.brightness}
                             power={device.power}
-                            selectorValues={device.selectorValues}
+                            selectOptions={device.selectOptions}
                             selectedValue={device.selectedValue}
                         />
                     )}

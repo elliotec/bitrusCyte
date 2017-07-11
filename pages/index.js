@@ -18,6 +18,7 @@ class Index extends React.Component {
                         <div>
                             <Devices
                                 devices={this.props.devices}
+                                dispatch={this.props.dispatch}
                             />
                         </div>
                 }
