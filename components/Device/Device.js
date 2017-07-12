@@ -25,7 +25,7 @@ export class Device extends React.Component {
                         <h6>{this.props.powerButtonName}</h6>
                         <Toggle
                             defaultChecked={this.props.power}
-                            onChange={(e) => {this.props.dispatch(powerButtonChange(e.target.checked, this.props.id))}}
+                            onChange={(e) => {this.props.dispatch(powerButtonChange(e.target.checked, this.props.id, this.props.fields))}}
                         />
                     </div>
                 }
@@ -33,7 +33,8 @@ export class Device extends React.Component {
                     <div>
                         <h6>{this.props.volumeSliderName}</h6>
                         <Slider
-                            onChange={(value) => {this.props.dispatch(volumeChange(value, this.props.id))}}
+                            value={parseInt(this.props.volume)}
+                            onChange={(value) => {this.props.dispatch(volumeChange(value, this.props.id,this.props.fields))}}
                         />
                     </div>
                 }
@@ -41,7 +42,8 @@ export class Device extends React.Component {
                     <div>
                         <h6>{this.props.brightnessSliderName}</h6>
                         <Slider
-                            onChange={(value) => {this.props.dispatch(brightnessChange(value, this.props.id))}}
+                            value={parseInt(this.props.brightness)}
+                            onChange={(value) => {this.props.dispatch(brightnessChange(value, this.props.id, this.props.fields))}}
                         />
                     </div>
                 }
@@ -50,7 +52,7 @@ export class Device extends React.Component {
                         <h6>{this.props.selectorName}</h6>
                         <Select
                             options={this.props.selectOptions}
-                            onChange={(value) => {this.props.dispatch(selectedValueChange(value, this.props.id))}}
+                            onChange={(value) => {this.props.dispatch(selectedValueChange(value, this.props.id, this.props.fields))}}
                             name={this.props.selectorName}
                             searchable={false}
                             value={this.props.selectedValue}

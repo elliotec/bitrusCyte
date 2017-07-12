@@ -8,12 +8,12 @@ export default class Devices extends React.Component {
         return (
             <section className="devices">
                 <h2 className="devices-header">Devices</h2>
-                {console.log(this.props.devices)}
                 <div className="devices-flex">
                     {_map(this.props.devices, device =>
                         <Device
                             key={device.sys.id}
                             id={device.sys.id}
+                            fields={device.fields}
                             name={device.fields.deviceName["en-US"]}
                             type={device.fields.type["en-US"]}
                             shouldHaveVolumeSlider={device.fields.shouldHaveVolumeSlider["en-US"]}
@@ -25,12 +25,13 @@ export default class Devices extends React.Component {
                             brightnessSliderName={device.fields.brightnessSliderName ? device.fields.brightnessSliderName["en-US"] : ''}
                             selectorName={device.fields.selectorName ? device.fields.selectorName["en-US"] : ''}
                             powerButtonName={device.fields.powerButtonName ? device.fields.powerButtonName["en-US"] : ''}
-                            volume={device.fields.volume ? device.fields.volume["en-US"] : '' }
-                            brightness={device.fields.brightness ? device.brightness["en-US"]: ''}
+                            volume={device.fields.sliderValue ? device.fields.sliderValue["en-US"] : '' }
+                            brightness={device.fields.brightnessSliderValue ? device.fields.brightnessSliderValue["en-US"]: ''}
                             power={device.fields.power ? device.fields.power["en-US"] : ''}
-                            selectOptions={device.fields.selectOptions ? device.fields["en-US"] : []}
+                            selectOptions={device.selectOptions ? device.selectOptions : []}
                             selectedValue={device.fields.selectedValue ? device.fields.selectedValue["en-US"] : ''}
                         />
+
                     )}
                 </div>
             </section>
