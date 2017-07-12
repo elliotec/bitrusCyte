@@ -1,5 +1,7 @@
 import React from 'react';
+import * as contentful from 'contentful-management'
 import fetch from 'isomorphic-fetch';
+import _map from 'lodash/map';
 import Index from 'pages/index';
 import { config } from 'config';
 import { createStore, applyMiddleware } from 'redux';
@@ -7,8 +9,13 @@ import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-const citrusContentfulApiUrl = `https://cdn.contentful.com/spaces/${config.citrusSpaceId}/entries?access_token=${config.citrusContentfulAccessToken}`;
+const citrusContentfulGetApiUrl = `https://cdn.contentful.com/spaces/${config.citrusSpaceId}/entries?access_token=${config.citrusContentfulAccessToken}`;
+const citrusContentfulUpdateApiUrl = `https://api.contentful.com/spaces/${config.citrusSpaceId}/entries/`;
+const contentfulCmaToken = 'CFPAT-b344e4c210ab7ef654e5cf0a2b3144d8464e8c0c5af3a7a3ce8d684b5dfa6749'
 
+const client = contentful.createClient({
+  accessToken: contentfulCmaToken
+});
 // Builds redux store
 function configureStore(preloadedState) {
     return createStore(
@@ -22,17 +29,68 @@ function configureStore(preloadedState) {
     )
 }
 const store = configureStore();
-
 // Initial data fetch function (called in component did mount)
 export function fetchContentful() {
     return dispatch => {
         dispatch(requestContentful())
-        return fetch(citrusContentfulApiUrl)
+        return client.getSpace(config.citrusSpaceId)
+            .then(space => {space.getEntries()
+                .then(entries => {dispatch(receiveContentful(entries))})
+            })
+    }
+}
+// For updating changes to reflect on the back end
+export function sendUpdateToContentful(entryId, state) {
+    const entryUrl = citrusContentfulUpdateApiUrl + entryId;
+    const fields = state.devices[entryId].fields;
+    const version = state.devices[entryId].sys.revision;
+    const headers = new Headers({
+      "Content-Type": "application/vnd.contentful.management.v1+json",
+      "Authorization": `Bearer ${contentfulCmaToken}`,
+      "X-Contentful-Version": version
+    });
+    const init = {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({ fields })
+    }
+    const updateRequest = new Request(entryUrl, init)
+
+    return fetch(updateRequest)
+        .then(
+            response => response.json(),
+            error => console.log('An error occured.', error)
+        )
+        .then(json => {console.log(json); dispatch(updateContentful(json))})
+}
+
+// Initial data fetch function (called in component did mount)
+// function oldfetchContentful() {
+//     return dispatch => {
+//         dispatch(requestContentful())
+//         return fetch(citrusContentfulGetApiUrl)
+//             .then(
+//                 response => response.json(),
+//                 error => console.log('An error occured.', error)
+//             )
+//             .then(json => dispatch(receiveContentful(json)))
+//     }
+// }
+
+export function fetchContentfulVersion() {
+    const headers = new Headers({
+      "Content-Type": "application/vnd.contentful.management.v1+json",
+      "Authorization": `Bearer ${contentfulCmaToken}`,
+      "X-Contentful-Version": 1
+    });
+    return dispatch => {
+        dispatch(requestContentful())
+        return fetch(citrusContentfulUpdateApiUrl, {headers})
             .then(
                 response => response.json(),
                 error => console.log('An error occured.', error)
             )
-            .then(json => dispatch(receiveContentful(json)))
+            .then(json => {dispatch(receiveContentful(json))})
     }
 }
 
@@ -43,6 +101,7 @@ const POWER_BUTTON_CHANGE = 'POWER_BUTTON_CHANGE';
 const SELECTED_VALUE_CHANGE = 'SELECTED_VALUE_CHANGE';
 const VOLUME_CHANGE = 'VOLUME_CHANGE';
 const BRIGHTNESS_CHANGE = 'BRIGHTNESS_CHANGE';
+const UPDATE_CONTENFUL = 'UPDATE_CONTENFUL';
 
 // Action Creators
 function requestContentful() {
@@ -91,6 +150,14 @@ export function selectedValueChange(selectedValue, id) {
     }
 }
 
+function updateContentful(json) {
+    return {
+        type: UPDATE_CONTENFUL,
+        json
+    }
+
+}
+
 // Reducer
 function appReducer(state = {}, action = {}){
     const id = action.id;
@@ -102,15 +169,15 @@ function appReducer(state = {}, action = {}){
             }
 
         case RECEIVE_CONTENTFUL:
+            console.log(action.contentful.items)
             const contentfulItems = action.contentful.items;
             const itemsWithFields = contentfulItems.map(
                 (item) => {
-                    const createdDateMilliseconds = Date.parse(item.sys.createdAt);
                     const itemOptions = item.fields.selectorValues;
                     let selectOptions = [];
 
                     if(item.fields.selectorValues) {
-                        selectOptions = itemOptions.map(
+                        selectOptions = _map(itemOptions,
                             (option) => {
                                 return { value: option, label: option}
                             }
@@ -119,9 +186,10 @@ function appReducer(state = {}, action = {}){
 
                     return {
                         ...item,
-                        ...item.fields,
-                        selectOptions,
-                        createdDateMilliseconds
+                        fields: {
+                            ...item.fields,
+                            selectOptions
+                        }
                     }
                 }
             );
@@ -146,6 +214,7 @@ function appReducer(state = {}, action = {}){
         case SELECTED_VALUE_CHANGE:
             const selectedValue = action.selectedValue.value;
 
+            sendUpdateToContentful(id, state)
             return {
                 ...state,
                 devices: {
@@ -160,6 +229,7 @@ function appReducer(state = {}, action = {}){
         case POWER_BUTTON_CHANGE:
             const power = action.power;
 
+            sendUpdateToContentful(id, state)
             return {
                 ...state,
                 devices: {
@@ -174,6 +244,7 @@ function appReducer(state = {}, action = {}){
         case VOLUME_CHANGE:
             const volume = action.volume;
 
+            sendUpdateToContentful(id, state)
             return {
                 ...state,
                 devices: {
@@ -181,6 +252,19 @@ function appReducer(state = {}, action = {}){
                     [id]:{
                         ...state.devices[id],
                         volume
+                    }
+                }
+            }
+
+        case UPDATE_CONTENFUL:
+            const json = action.json;
+            return {
+                ...state,
+                ...json,
+                devices: {
+                    ...state.devices,
+                    [id]:{
+                        ...state.devices[id]
                     }
                 }
             }

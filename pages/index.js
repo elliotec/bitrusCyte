@@ -29,7 +29,6 @@ class Index extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    allDevices: state.allDevices,
     devices: state.devices
   }
 }

@@ -6,6 +6,7 @@
   "repository": "https://github.com/elliotec/LnL",
   "dependencies": {
     "classnames": "^2.2.5",
+    "contentful-management": "^3.9.0",
     "font-awesome": "^4.7.0",
     "front-matter": "^2.1.1",
     "gatsby": "^0.12.20",
