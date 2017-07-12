@@ -59,8 +59,15 @@ function receiveContentful(json) {
     }
 }
 
+export function powerButtonChange(powerButtonValue, id) {
+    return {
+        type: POWER_BUTTON_CHANGE,
+        powerButtonValue,
+        id
+    }
+}
+
 export function selectedValueChange(selectedValue, id) {
-    console.log(selectedValue, id)
     return {
         type: SELECTED_VALUE_CHANGE,
         selectedValue,
@@ -111,8 +118,6 @@ function appReducer(state = {}, action = {}){
                     return accum;
                 }, {}
             );
-
-            console.log(itemsById);
 
             return {
                 ...state,
