@@ -15,12 +15,10 @@ class Index extends React.Component {
         return (
             <div>
                 { !this.props.devices ? <marquee>loading... or broken</marquee> :
-                        <div>
-                            <Devices
-                                devices={this.props.devices}
-                                dispatch={this.props.dispatch}
-                            />
-                        </div>
+                    <Devices
+                        devices={this.props.devices}
+                        dispatch={this.props.dispatch}
+                    />
                 }
             </div>
         )

@@ -9,7 +9,6 @@ import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-// const citrusContentfulUpdateApiUrl = `https://api.contentful.com/spaces/${config.citrusSpaceId}/entries/`;
 const contentfulCmaToken = 'CFPAT-b344e4c210ab7ef654e5cf0a2b3144d8464e8c0c5af3a7a3ce8d684b5dfa6749'
 
 const client = contentful.createClient({
@@ -28,7 +27,7 @@ function configureStore(preloadedState) {
     )
 }
 const store = configureStore();
-// Initial data fetch function (called in component did mount)
+
 export function fetchContentful() {
     return dispatch => {
         dispatch(requestContentful())
@@ -38,7 +37,7 @@ export function fetchContentful() {
             })
     }
 }
-// For updating changes to reflect on the back end
+
 export function sendUpdateToContentful(entryId, state) {
     const newFields = state.devices[entryId].fields;
     return client.getSpace(config.citrusSpaceId)
@@ -256,7 +255,7 @@ export default class App extends React.Component {
     render () {
         return (
             <Provider store={store} >
-                {this.props.children}
+                <Index />
             </Provider>
         )
     }
