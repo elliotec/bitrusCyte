@@ -1,6 +1,6 @@
 import React from 'react';
 import Device from 'components/Device/Device';
-import _ from 'lodash';
+import _map from 'lodash/map';
 import './Devices.css';
 
 export default class Devices extends React.Component {
@@ -9,7 +9,7 @@ export default class Devices extends React.Component {
             <section className="devices">
                 <h2 className="devices-header">Devices</h2>
                 <div className="devices-flex">
-                    {_.map(this.props.devices, device =>
+                    {_map(this.props.devices, device =>
                         <Device
                             key={device.sys.id}
                             id={device.sys.id}

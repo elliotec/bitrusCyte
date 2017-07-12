@@ -7,19 +7,12 @@ import './toggle.css';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './Device.css';
-import { selectedValueChange } from '../../pages/_template.jsx';
-
-function logButtonChange(val) {
-  console.log("Button", val);
-}
-
-function logVolumeSliderChange(val) {
-  console.log("Volume", val);
-}
-
-function logBrightnessSliderChange(val) {
-  console.log("Brightness", val);
-}
+import {
+    selectedValueChange,
+    powerButtonChange,
+    volumeChange,
+    brightnessChange
+} from '../../pages/_template.jsx';
 
 export class Device extends React.Component {
     render () {
@@ -32,7 +25,7 @@ export class Device extends React.Component {
                         <h6>{this.props.powerButtonName}</h6>
                         <Toggle
                             defaultChecked={this.props.power}
-                            onChange={logButtonChange}
+                            onChange={(e) => {this.props.dispatch(powerButtonChange(e.target.checked, this.props.id))}}
                         />
                     </div>
                 }
@@ -40,7 +33,7 @@ export class Device extends React.Component {
                     <div>
                         <h6>{this.props.volumeSliderName}</h6>
                         <Slider
-                            onChange={logVolumeSliderChange}
+                            onChange={(value) => {this.props.dispatch(volumeChange(value, this.props.id))}}
                         />
                     </div>
                 }
@@ -48,7 +41,7 @@ export class Device extends React.Component {
                     <div>
                         <h6>{this.props.brightnessSliderName}</h6>
                         <Slider
-                            onChange={logBrightnessSliderChange}
+                            onChange={(value) => {this.props.dispatch(brightnessChange(value, this.props.id))}}
                         />
                     </div>
                 }

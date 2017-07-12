@@ -59,10 +59,26 @@ function receiveContentful(json) {
     }
 }
 
-export function powerButtonChange(powerButtonValue, id) {
+export function powerButtonChange(power, id) {
     return {
         type: POWER_BUTTON_CHANGE,
-        powerButtonValue,
+        power,
+        id
+    }
+}
+
+export function volumeChange(volume, id) {
+    return {
+        type: VOLUME_CHANGE,
+        volume,
+        id
+    }
+}
+
+export function brightnessChange(brightness, id) {
+    return {
+        type: BRIGHTNESS_CHANGE,
+        brightness,
         id
     }
 }
@@ -77,8 +93,8 @@ export function selectedValueChange(selectedValue, id) {
 
 // Reducer
 function appReducer(state = {}, action = {}){
+    const id = action.id;
     switch (action.type){
-
         case REQUEST_CONTENTFUL:
             return {
                 ...state,
@@ -129,7 +145,6 @@ function appReducer(state = {}, action = {}){
 
         case SELECTED_VALUE_CHANGE:
             const selectedValue = action.selectedValue.value;
-            const id = action.id;
 
             return {
                 ...state,
@@ -138,6 +153,34 @@ function appReducer(state = {}, action = {}){
                     [id]:{
                         ...state.devices[id],
                         selectedValue
+                    }
+                }
+            }
+
+        case POWER_BUTTON_CHANGE:
+            const power = action.power;
+
+            return {
+                ...state,
+                devices: {
+                    ...state.devices,
+                    [id]:{
+                        ...state.devices[id],
+                        power
+                    }
+                }
+            }
+
+        case VOLUME_CHANGE:
+            const volume = action.volume;
+
+            return {
+                ...state,
+                devices: {
+                    ...state.devices,
+                    [id]:{
+                        ...state.devices[id],
+                        volume
                     }
                 }
             }
