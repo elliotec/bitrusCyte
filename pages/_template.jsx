@@ -196,6 +196,13 @@ function appReducer(state = {}, action = {}){
                 }
             }
 
+            // extra credit, but API appears broken
+            if (state.devices[id].fields.type["en-US"].includes('CitrusLights')){
+                fetch('http://automation­prototype.herokuapp.com/citruslight/power',
+                    {method: 'POST', body:JSON.stringify({ power })}
+                ).then((response) => console.log(response)).catch(error => console.log(error))
+            }
+
             sendUpdateToContentful(action.id, powerNewState)
 
             return powerNewState;
