@@ -196,11 +196,28 @@ function appReducer(state = {}, action = {}){
                 }
             }
 
-            // extra credit, but API appears broken
+            // extra credit
             if (state.devices[id].fields.type["en-US"].includes('CitrusLights')){
-                fetch('http://automation­prototype.herokuapp.com/citruslight/power',
-                    {method: 'POST', body:JSON.stringify({ power })}
-                ).then((response) => console.log(response)).catch(error => console.log(error))
+                function crossDomainPost() {
+                  const iframe = document.createElement("iframe");
+                  const uniqueString = "corsFetch";
+                  document.body.appendChild(iframe);
+                  iframe.style.display = "none";
+                  iframe.contentWindow.name = uniqueString;
+
+                  const form = document.createElement("form");
+                  form.target = uniqueString;
+                  form.action = "http://automation-prototype.herokuapp.com/citrus-light/power";
+                  form.method = "POST";
+
+                  const input = document.createElement("input");
+                  input.type = "hidden";
+                  form.appendChild(input);
+
+                  document.body.appendChild(form);
+                  return form.submit();
+                }
+                crossDomainPost();
             }
 
             sendUpdateToContentful(action.id, powerNewState)
