@@ -46,7 +46,6 @@ export function sendUpdateToContentful(entryId, state) {
             return entry.update()
         })
         .then((entry) => console.log(`Entry ${entry.sys.id} updated.`))
-        .catch(console.error)
 }
 
 // Action Types
